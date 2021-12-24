@@ -147,6 +147,7 @@ namespace FirstThreadTask
                     TBOne.Text = "";
                     TBTwo.Text = "";
                 }));
+                MyTC.MyEvent -= MyTC_MyEvent;
                 MyTC = null;
             }
             else
