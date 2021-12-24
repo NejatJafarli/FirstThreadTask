@@ -144,6 +144,7 @@ namespace FirstThreadTask
                     BtnSuspend.IsEnabled = false;
                     BtnResume.IsEnabled = false;
 
+                    TBOne.Text = "";
                     TBTwo.Text = "";
                 }));
                 MyTC = null;

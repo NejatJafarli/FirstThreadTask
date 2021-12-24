@@ -36,7 +36,6 @@
             </Grid.ColumnDefinitions>
             <TextBox IsReadOnly="True" TextWrapping="Wrap" Name="TBOne" Margin="10" ></TextBox>
             <TextBox IsReadOnly="True" TextWrapping="Wrap" Name="TBTwo" Margin="10" Grid.Column="1" ></TextBox>
-
         </Grid>
     </Grid>
 </Window>
