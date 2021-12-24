@@ -130,6 +130,7 @@ namespace FirstThreadTask
 
             if (Max == Progress)
             {
+                MessageBox.Show("Progress Succesfull");
                 this.Dispatcher.Invoke(new Action(() =>
                 {
                     PB.Maximum = 100;
@@ -146,7 +147,6 @@ namespace FirstThreadTask
                     TBTwo.Text = "";
                 }));
                 MyTC = null;
-                MessageBox.Show("Progress Succesfull");
             }
             else
                 this.Dispatcher.Invoke(new Action(() =>
