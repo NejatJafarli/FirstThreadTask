@@ -1,7 +1,10 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -81,6 +84,7 @@ namespace FirstThreadTask
                 else
                 {
                     FilePathOne = openFileDialog.FileName;
+                    TBOne.Text = File.ReadAllText(FilePathOne);
                 }
 
             }
@@ -114,10 +118,14 @@ namespace FirstThreadTask
             MyThread = new Thread(new ThreadStart(MyTC.Do));
             MyThread.Start();
 
+            BtnFileOne.IsEnabled = false;
+            BtnFileTwo.IsEnabled = false;
+            BtnCopy.IsEnabled = false;
+
             BtnSuspend.IsEnabled = true;
         }
 
-        private void MyTC_MyEvent(long Max, int Progress)
+        private void MyTC_MyEvent(long Max, int Progress,char ch)
         {
 
             if (Max == Progress)
@@ -128,6 +136,14 @@ namespace FirstThreadTask
                     PB.Value = 0;
                     FilePathOne = "";
                     FilePathTwo = "";
+
+                    BtnFileOne.IsEnabled = true;
+                    BtnFileTwo.IsEnabled = true;
+                    BtnCopy.IsEnabled = false;
+                    BtnSuspend.IsEnabled = false;
+                    BtnResume.IsEnabled = false;
+
+                    TBTwo.Text = "";
                 }));
                 MyTC = null;
                 MessageBox.Show("Progress Succesfull");
@@ -137,12 +153,15 @@ namespace FirstThreadTask
                 {
                     PB.Maximum = Max;
                     PB.Value = Progress;
+
+                    TBTwo.Text += ch;
+
                 }));
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            if (MyTC is not null)
+            if (MyTC != null)
                 MyTC.MyEvent -= MyTC_MyEvent;
         }
 

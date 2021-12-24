@@ -11,7 +11,7 @@ namespace FirstThreadTask
 {
     public class MyThreadClass : IDisposable
     {
-        public delegate void MyEventHandler(long Max, int Progress);
+        public delegate void MyEventHandler(long Max, int Progress,char ch);
         public event MyEventHandler MyEvent;
         public string Path1 { get; set; }
         public string Path2 { get; set; }
@@ -32,8 +32,6 @@ namespace FirstThreadTask
                         int val;
                         var Counter = sr.BaseStream.Length;
                         int ProgressBarValue = 0;
-                        if (MyEvent != null)
-                            MyEvent(Counter, ProgressBarValue);
                         while (true)
                         {
                             val = Fs.ReadByte();
@@ -43,7 +41,7 @@ namespace FirstThreadTask
                             ch = (char)val;
                             ProgressBarValue += 1;
                             if (MyEvent != null)
-                                MyEvent(Counter, ProgressBarValue);
+                                MyEvent(Counter, ProgressBarValue,ch);
 
                             sw.Write(ch);
                             Thread.Sleep(30);
