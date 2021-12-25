@@ -115,6 +115,9 @@ namespace FirstThreadTask
             MyTC = new MyThreadClass(FilePathOne, FilePathTwo);
             MyTC.MyEvent += MyTC_MyEvent;
 
+            TBOne.Text = File.ReadAllText(FilePathOne);
+            TBTwo.Text = "";
+
             MyThread = new Thread(new ThreadStart(MyTC.Do));
             MyThread.Start();
 
@@ -125,30 +128,30 @@ namespace FirstThreadTask
             BtnSuspend.IsEnabled = true;
         }
 
-        private void MyTC_MyEvent(long Max, int Progress,char ch)
+        private void MyTC_MyEvent(long Max, int Progress, char ch)
         {
 
             if (Max == Progress)
             {
-                MessageBox.Show("Progress Succesfull");
                 this.Dispatcher.Invoke(new Action(() =>
                 {
+                    TBTwo.Text += ch;
                     PB.Maximum = 100;
                     PB.Value = 0;
-                    FilePathOne = "";
-                    FilePathTwo = "";
 
                     BtnFileOne.IsEnabled = true;
                     BtnFileTwo.IsEnabled = true;
-                    BtnCopy.IsEnabled = false;
+                    BtnCopy.IsEnabled = true;
                     BtnSuspend.IsEnabled = false;
                     BtnResume.IsEnabled = false;
 
-                    TBOne.Text = "";
                     TBTwo.Text = "";
+
+
                 }));
                 MyTC.MyEvent -= MyTC_MyEvent;
                 MyTC = null;
+                MessageBox.Show("Progress Succesfull");
             }
             else
                 this.Dispatcher.Invoke(new Action(() =>
@@ -165,7 +168,15 @@ namespace FirstThreadTask
         {
             if (MyTC != null)
                 MyTC.MyEvent -= MyTC_MyEvent;
+            if (MyThread.ThreadState == ThreadState.Suspended)
+            {
+                MyThread.Resume();
+                MyThread.Abort();
+            }
+            else
+                MyThread.Abort();
         }
+
 
         private void Button_Click_3(object sender, RoutedEventArgs e)
         {
